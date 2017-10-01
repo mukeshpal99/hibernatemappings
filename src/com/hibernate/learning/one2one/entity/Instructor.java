@@ -1,4 +1,4 @@
-package com.hibernate.learning.demo.entity;
+package com.hibernate.learning.one2one.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

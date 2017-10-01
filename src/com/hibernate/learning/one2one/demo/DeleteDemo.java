@@ -1,13 +1,13 @@
-package com.hibernate.learning.demo;
+package com.hibernate.learning.one2one.demo;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import com.hibernate.learning.demo.entity.Instructor;
-import com.hibernate.learning.demo.entity.InstructorDetail;
+import com.hibernate.learning.one2one.entity.Instructor;
+import com.hibernate.learning.one2one.entity.InstructorDetail;
 
-public class GetInstructorDetailDemo {
+public class DeleteDemo {
 
 	public static void main(String[] args) {
 		
@@ -25,27 +25,30 @@ public class GetInstructorDetailDemo {
 		
 		try
 		{
-			int instructorDetailId = 5;
+			int instructorId = 2;
 			
 			//start the transaction
 			session.beginTransaction();
 			
-			// retrieve the instructor detail
-			System.out.println("Getting the instructor with id: "+ instructorDetailId);
-			InstructorDetail tempInstructorDetail = session.get(InstructorDetail.class, instructorDetailId);
-			Instructor tempInstructor = null;
-			if(tempInstructorDetail != null)
+			// retrieve the instructor
+			System.out.println("Getting the instructor with id: "+ instructorId);
+			Instructor tempInstructor = session.get(Instructor.class, instructorId);
+			System.out.println(tempInstructor);
+			
+			
+			// delete the instructor
+			//note: This will also delete the instructor detail object due to cascading effect
+			if(tempInstructor != null)
 			{
-				System.out.println("Instructor detail: "+tempInstructorDetail);
-				
-				// retrieve the associated instructor
-				 tempInstructor = tempInstructorDetail.getInstructor();
-				System.out.println("Instructor: "+tempInstructor);
-				
+				System.out.println("Deleting: "+tempInstructor);
+				session.delete(tempInstructor);
 			}
+			
 	
 			// commit the instructor object
 			session.getTransaction().commit();
+			
+			
 			
 			System.out.println("Done!");
 			
@@ -56,7 +59,6 @@ public class GetInstructorDetailDemo {
 			ex.printStackTrace();
 		}finally
 		{
-			session.close();
 			factory.close();
 		}
 		

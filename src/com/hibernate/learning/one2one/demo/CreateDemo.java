@@ -1,11 +1,11 @@
-package com.hibernate.learning.demo;
+package com.hibernate.learning.one2one.demo;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import com.hibernate.learning.demo.entity.Instructor;
-import com.hibernate.learning.demo.entity.InstructorDetail;
+import com.hibernate.learning.one2one.entity.Instructor;
+import com.hibernate.learning.one2one.entity.InstructorDetail;
 
 public class CreateDemo {
 
