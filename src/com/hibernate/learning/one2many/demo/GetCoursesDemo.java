@@ -29,9 +29,7 @@ public class GetCoursesDemo {
 		
 		try
 		{
-			
-			
-			
+		
 			//start the transaction
 			session.beginTransaction();
 			
