@@ -75,14 +75,4 @@ public class Course {
 		return "Course [id=" + id + ", title=" + title + "]";
 	}
 
-
-		
-	//add instructor to course
-	public void addInstructor(Instructor instructor)
-	{
-		this.setInstructor(instructor);
-	}
-	
-	
-
 }
