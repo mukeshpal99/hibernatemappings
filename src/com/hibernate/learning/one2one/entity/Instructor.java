@@ -1,5 +1,8 @@
 package com.hibernate.learning.one2one.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,8 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.hibernate.learning.one2many.entity.Course;
 
 @Entity
 @Table(name="instructor")
@@ -31,6 +37,13 @@ public class Instructor {
 	@OneToOne(cascade ={CascadeType.ALL})
 	@JoinColumn(name="instructor_detail_id")
 	private InstructorDetail instructorDetail;
+	
+	@OneToMany(mappedBy="instructor",
+				cascade={CascadeType.MERGE,
+						CascadeType.DETACH,
+						CascadeType.PERSIST,
+						CascadeType.REFRESH})
+	private List<Course> courses;
 	
 	
 	public Instructor(){}
@@ -93,6 +106,17 @@ public class Instructor {
 		this.instructorDetail = instructorDetail;
 	}
 
+	
+
+	public List<Course> getCourses() {
+		return courses;
+	}
+
+
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
+	}
+
 
 	@Override
 	public String toString() {
@@ -100,7 +124,13 @@ public class Instructor {
 				+ ", instructorDetail=" + instructorDetail + "]";
 	};
 	
-	
+	//add new course and setting the instuctor
+	public void addCourse(Course tempCourse){
+		
+		if(courses == null) courses = new ArrayList<>();
+		courses.add(tempCourse);
+		tempCourse.setInstructor(this);
+	}
 	
 	
 	

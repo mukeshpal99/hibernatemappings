@@ -69,7 +69,6 @@ public class InstructorDetail {
 					CascadeType.MERGE,			
 					CascadeType.PERSIST,								
 					CascadeType.REFRESH})
-	
 	private Instructor instructor;
 	
 	public Instructor getInstructor()
