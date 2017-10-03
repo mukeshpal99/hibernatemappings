@@ -1,14 +1,17 @@
-package com.hibernate.learning.one2many.demo;
+package com.hibernate.learning.fetchType;
+
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import com.hibernate.learning.one2many.entity.Course;
 import com.hibernate.learning.one2one.entity.Instructor;
 import com.hibernate.learning.one2one.entity.InstructorDetail;
 
-public class CreateCoursesDemo {
+public class BreakLazyFetchSoln2 {
 
 	public static void main(String[] args) {
 		
@@ -23,34 +26,37 @@ public class CreateCoursesDemo {
 		
 		// create session & start a transaction
 		Session session = factory.getCurrentSession();
-	
 		
 		
 		try
 		{
-			
+		
 			//start the transaction
 			session.beginTransaction();
 			
 			// get the instructor from DB
 			int instructorId = 1;
-			Instructor tempInstructor= session.get(Instructor.class, instructorId);
 			
-			//create some courses
-			Course tempCourse1 = new Course("Java Course");
-			tempCourse1.setInstructor(tempInstructor);
+			// create a HQL query to fetch instructor and courses
+			Query<Instructor> query = session.createQuery("Select i from Instructor i "
+					+ "JOIN FETCH i.courses "
+					+ "where i.id=:theInstructorId", Instructor.class);
 			
-			Course tempCourse2 = new Course("HOckey Course");
-			tempCourse2.setInstructor(tempInstructor);
-			//add courses to instructor
+			// set parameter for query
+			query.setParameter("theInstructorId", instructorId);
 			
-			
-			//save the courses
-			session.save(tempCourse1);
-			session.save(tempCourse2);
-			
+			// execute the query
+			Instructor tempInstructor = query.getSingleResult();
+
 			// commit the instructor object
 			session.getTransaction().commit();
+			
+			//close the session
+			session.close();
+			System.out.println("Session is closed");
+			
+			List<Course>courses = tempInstructor.getCourses();
+			System.out.println("List of COurses: "+ courses);
 			
 			System.out.println("Done!");
 			

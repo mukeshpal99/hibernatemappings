@@ -1,4 +1,6 @@
-package com.hibernate.learning.one2many.demo;
+package com.hibernate.learning.fetchType;
+
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,7 +10,7 @@ import com.hibernate.learning.one2many.entity.Course;
 import com.hibernate.learning.one2one.entity.Instructor;
 import com.hibernate.learning.one2one.entity.InstructorDetail;
 
-public class CreateCoursesDemo {
+public class BreakLazyFetchSoln1 {
 
 	public static void main(String[] args) {
 		
@@ -23,34 +25,32 @@ public class CreateCoursesDemo {
 		
 		// create session & start a transaction
 		Session session = factory.getCurrentSession();
-	
 		
 		
 		try
 		{
-			
+		
 			//start the transaction
 			session.beginTransaction();
 			
 			// get the instructor from DB
 			int instructorId = 1;
 			Instructor tempInstructor= session.get(Instructor.class, instructorId);
-			
-			//create some courses
-			Course tempCourse1 = new Course("Java Course");
-			tempCourse1.setInstructor(tempInstructor);
-			
-			Course tempCourse2 = new Course("HOckey Course");
-			tempCourse2.setInstructor(tempInstructor);
-			//add courses to instructor
-			
-			
-			//save the courses
-			session.save(tempCourse1);
-			session.save(tempCourse2);
-			
+			System.out.println("Instructor: "+tempInstructor);
+
+			//calling the get coursed method while session is open
+			// this will not throw error on line 51, calling get courses after session is closed
+			List<Course> courses = tempInstructor.getCourses();
+			System.out.println("List of COurses: "+ courses);
+
 			// commit the instructor object
 			session.getTransaction().commit();
+			
+			//close the session
+			session.close();
+			
+			courses = tempInstructor.getCourses();
+			System.out.println("List of COurses: "+ courses);
 			
 			System.out.println("Done!");
 			
