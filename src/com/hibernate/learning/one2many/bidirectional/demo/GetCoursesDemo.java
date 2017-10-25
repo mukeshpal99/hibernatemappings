@@ -1,14 +1,16 @@
-package com.hibernate.learning.one2many.demo;
+package com.hibernate.learning.one2many.bidirectional.demo;
+
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import com.hibernate.learning.one2many.entity.Course;
+import com.hibernate.learning.one2many.bidirectional.entity.Course;
 import com.hibernate.learning.one2one.entity.Instructor;
 import com.hibernate.learning.one2one.entity.InstructorDetail;
 
-public class CreateInstructorDemo {
+public class GetCoursesDemo {
 
 	public static void main(String[] args) {
 		
@@ -27,26 +29,18 @@ public class CreateInstructorDemo {
 		
 		try
 		{
-			
-			//create the instructor object
-			System.out.println("creating instructor object: ");
-			Instructor tempInstructor = new Instructor("Tutor1", "lastname", "test@test.com");
-			
-			//create the instructor detail object
-			System.out.println("creating instructor object: ");
-			InstructorDetail tempInstructorDetail = new InstructorDetail("Youtube.com/channel1", "hobby1");
-			
-			//associate the instructor detail object
-			tempInstructor.setInstructorDetail(tempInstructorDetail);
-			
+		
 			//start the transaction
 			session.beginTransaction();
 			
-			//save the instructor object
-			//note: This will also save the instructor detail object due to cascading effect
-			System.out.println("Saving the instructor");
-			System.out.println(tempInstructor);
-			session.save(tempInstructor);
+			// get the instructor from DB
+			int instructorId = 1;
+			Instructor tempInstructor= session.get(Instructor.class, instructorId);
+			
+			List<Course> courses = tempInstructor.getCourses();
+			System.out.println("List of COurses: "+ courses);
+			
+			
 			
 			// commit the instructor object
 			session.getTransaction().commit();

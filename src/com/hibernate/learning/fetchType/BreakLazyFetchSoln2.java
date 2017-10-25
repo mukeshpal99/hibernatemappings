@@ -7,7 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
-import com.hibernate.learning.one2many.entity.Course;
+import com.hibernate.learning.one2many.bidirectional.entity.Course;
 import com.hibernate.learning.one2one.entity.Instructor;
 import com.hibernate.learning.one2one.entity.InstructorDetail;
 

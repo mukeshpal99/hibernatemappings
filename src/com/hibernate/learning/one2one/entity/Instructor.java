@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.hibernate.learning.one2many.entity.Course;
+import com.hibernate.learning.one2many.bidirectional.entity.Course;
 
 @Entity
 @Table(name="instructor")
